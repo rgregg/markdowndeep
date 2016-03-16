@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownDeepBenchmark", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownDeepGui", "MarkdownDeepGui\MarkdownDeepGui.csproj", "{FBDF1B77-BF84-4B3D-83DE-46271C468690}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{7E33899A-1EC4-4082-817D-606BFFD27C4F}"
+	ProjectSection(SolutionItems) = preProject
+		Samples\indented-code-sample.md = Samples\indented-code-sample.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
