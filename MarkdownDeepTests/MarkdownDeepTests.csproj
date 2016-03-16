@@ -73,9 +73,6 @@
     <Compile Include="TableSpecTests.cs" />
     <Compile Include="ExtraMode.cs" />
     <Compile Include="SafeModeTests.cs" />
-    <Compile Include="JavascriptTests.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="MoreTestFiles.cs" />
     <Compile Include="LinkAndImgTests.cs" />
     <Compile Include="SpanLevelTests.cs" />
@@ -405,15 +402,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="JSTestResources\JSHost.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="JSTestResources\MarkdownDeep.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="JSTestResources\MarkdownDeep.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="testfiles\extramode\Issue26%28ExtraMode%29.txt" />
     <EmbeddedResource Include="testfiles\extramode\Issue26%28ExtraMode%29.html" />
     <EmbeddedResource Include="testfiles\extramode\Issue30%28ExtraMode%29.txt" />
@@ -472,9 +460,11 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy /D /Y "$(SolutionDir)MarkdownDeepJS\*.js" "$(ProjectDir)JSTestResources"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>rem nuget.exe install $(ProjectDir)packages.config -o $(ProjectDir)..\Packages</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
