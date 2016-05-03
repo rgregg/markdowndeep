@@ -23,11 +23,11 @@ namespace MarkdownDeepTests
 			Utils.RunResourceTest(resourceName);
 		}
 
-		[Test, TestCaseSource("GetTests_mdtest11")]
-		public void Test_mdtest11_js(string resourceName)
-		{
-			Utils.RunResourceTestJS(resourceName);
-		}
+//		[Test, TestCaseSource("GetTests_mdtest11")]
+//		public void Test_mdtest11_js(string resourceName)
+//		{
+//			Utils.RunResourceTestJS(resourceName);
+//		}
 
 		public static IEnumerable<TestCaseData> GetTests_mdtest01()
 		{
@@ -41,11 +41,11 @@ namespace MarkdownDeepTests
 			Utils.RunResourceTest(resourceName);
 		}
 
-		[Test, TestCaseSource("GetTests_mdtest01")]
-		public void Test_mdtest01_js(string resourceName)
-		{
-			Utils.RunResourceTestJS(resourceName);
-		}
+//		[Test, TestCaseSource("GetTests_mdtest01")]
+//		public void Test_mdtest01_js(string resourceName)
+//		{
+//			Utils.RunResourceTestJS(resourceName);
+//		}
 
 		/*
 		 * Don't run the pandoc test's as they're basically a demonstration of things
@@ -76,15 +76,15 @@ namespace MarkdownDeepTests
 			Utils.RunResourceTest(resourceName);
 		}
 
-		[Test, TestCaseSource("GetTests_phpmarkdown")]
-		public void Test_phpmarkdown_js(string resourceName)
-		{
-			// Fake success for randomized link can't ever match
-			if (resourceName.EndsWith("Email auto links.text"))
-				return;
-
-			Utils.RunResourceTestJS(resourceName);
-		}
+//		[Test, TestCaseSource("GetTests_phpmarkdown")]
+//		public void Test_phpmarkdown_js(string resourceName)
+//		{
+//			// Fake success for randomized link can't ever match
+//			if (resourceName.EndsWith("Email auto links.text"))
+//				return;
+//
+//			Utils.RunResourceTestJS(resourceName);
+//		}
 
 
 	}
