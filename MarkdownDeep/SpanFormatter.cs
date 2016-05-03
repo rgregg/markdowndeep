@@ -563,7 +563,6 @@ namespace MarkdownDeep
 		{
 			// Capture current state
 			char ch = current;
-			char altch = ch == '*' ? '_' : '*';
 			int savepos = position;
 
 			// Check for a consecutive sequence of just '_' and '*'

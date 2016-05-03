@@ -14,7 +14,7 @@ namespace MarkdownDeepTests
 		{
 			var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
-			return from name in Assembly.GetExecutingAssembly().GetManifestResourceNames()
+			return from name in names
 					where name.StartsWith("MarkdownDeepTests.testfiles." + foldername + ".") && (name.EndsWith(".txt") || name.EndsWith(".text"))
 					select new TestCaseData(name);
 		}

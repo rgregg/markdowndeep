@@ -74,14 +74,7 @@ namespace MarkdownDeep
 
 		public override string ToString()
 		{
-			if (true || data == null)
-			{
-				return string.Format("{0} - {1} - {2}", type.ToString(), startOffset, length);
-			}
-			else
-			{
-				return string.Format("{0} - {1} - {2} -> {3}", type.ToString(), startOffset, length, data.ToString());
-			}
+			return string.Format("{0} - {1} - {2}", type.ToString(), startOffset, length);
 		}
 
 		public TokenType type;
