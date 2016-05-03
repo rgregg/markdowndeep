@@ -21,7 +21,7 @@ namespace MarkdownDeep
 {
 	// Some block types are only used during block parsing, some
 	// are only used during rendering and some are used during both
-	internal enum BlockType
+	public enum BlockType
 	{
 		Blank,			// blank line (parse only)
 		h1,				// headings (render and parse)
@@ -57,7 +57,7 @@ namespace MarkdownDeep
 		p_footnote,		// paragraph with footnote return link append.  Return link string is in `data`.
 	}
 
-	class Block
+	public class Block
 	{
 		internal Block()
 		{
@@ -162,7 +162,7 @@ namespace MarkdownDeep
 				case BlockType.h4:
 				case BlockType.h5:
 				case BlockType.h6:
-					if (m.ExtraMode && !m.SafeMode)
+					if (m.ExtraMode)
 					{
 						b.Append("<" + blockType.ToString());
 						string id = ResolveHeaderID(m);
@@ -242,7 +242,10 @@ namespace MarkdownDeep
 					return;
 
 				case BlockType.unsafe_html:
-					m.HtmlEncode(b, buf, contentStart, contentLen);
+                    if (m.EncodeUnsafeHtml)
+                    {
+                        m.HtmlEncode(b, buf, contentStart, contentLen);
+                    }
 					return;
 
 				case BlockType.codeblock:
@@ -258,7 +261,11 @@ namespace MarkdownDeep
 					}
 					else
 					{
-						b.Append("<pre><code>");
+					    if (!string.IsNullOrEmpty((this.CodeLanguage)))
+					        b.AppendFormat("<pre><code class=\"{0}\">", this.CodeLanguage);
+                        else
+						    b.Append("<pre><code>");
+
 						foreach (var line in children)
 						{
 							m.HtmlEncodeAndConvertTabsToSpaces(b, line.buf, line.contentStart, line.contentLen);
@@ -477,6 +484,7 @@ namespace MarkdownDeep
 			contentLen = other.contentLen;
 			lineStart = other.lineStart;
 			lineLen = other.lineLen;
+            CodeLanguage = other.CodeLanguage;
 			return this;
 		}
 
@@ -488,5 +496,21 @@ namespace MarkdownDeep
 		internal int lineLen;
 		internal object data;			// content depends on block type
 		internal List<Block> children;
-	}
+
+
+        public BlockType BlockType { get { return blockType; } }
+
+        public string CodeLanguage { get; set; }
+
+        public IMarkdownTable Table 
+        {
+            get 
+            {
+                if (BlockType != BlockType.table_spec)
+                    return null;
+
+                return data as IMarkdownTable;
+            }
+        }
+    }
 }

@@ -19,7 +19,7 @@ using System.Text;
 
 namespace MarkdownDeep
 {
-	internal class LinkInfo
+    internal class LinkInfo : ILinkInfo
 	{
 		public LinkInfo(LinkDefinition def, string link_text)
 		{
@@ -29,6 +29,14 @@ namespace MarkdownDeep
 
 		public LinkDefinition def;
 		public string link_text;
+
+        public LinkDefinition Definition { get { return def; } }
+        public string Text {get { return link_text; } }
 	}
 
+    public interface ILinkInfo
+    {
+        LinkDefinition Definition { get; }
+        string Text {get;}
+    }
 }

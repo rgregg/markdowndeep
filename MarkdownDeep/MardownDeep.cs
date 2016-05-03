@@ -43,6 +43,7 @@ namespace MarkdownDeep
 			m_Footnotes = new Dictionary<string, Block>();
 			m_UsedFootnotes = new List<Block>();
 			m_UsedHeaderIDs = new Dictionary<string, bool>();
+            m_FoundLinks = new List<ILinkInfo>();
 		}
 
 		internal List<Block> ProcessBlocks(string str)
@@ -52,6 +53,7 @@ namespace MarkdownDeep
 			m_Footnotes.Clear();
 			m_UsedFootnotes.Clear();
 			m_UsedHeaderIDs.Clear();
+            m_FoundLinks.Clear();
 			m_AbbreviationMap = null;
 			m_AbbreviationList = null;
 
@@ -64,11 +66,17 @@ namespace MarkdownDeep
 			return Transform(str, out defs);
 		}
 
+        protected virtual void BeforeRenderBlocks(List<Block> foundBlocks)
+        {
+            // Enable subclasses to do processing before the document is rendered
+        }
+
 		// Transform a string
 		public string Transform(string str, out Dictionary<string, LinkDefinition> definitions)
 		{
 			// Build blocks
 			var blocks = ProcessBlocks(str);
+            m_Blocks = blocks.ToArray();
 
 			// Sort abbreviations by length, longest to shortest
 			if (m_AbbreviationMap != null)
@@ -83,6 +91,8 @@ namespace MarkdownDeep
 				);
 			}
 
+            BeforeRenderBlocks(blocks);
+
 			// Setup string builder
 			StringBuilder sb = m_StringBuilderFinal;
 			sb.Length = 0;
@@ -95,7 +105,7 @@ namespace MarkdownDeep
 					var b = blocks[i];
 					b.RenderPlain(this, sb);
 
-					if (SummaryLength>0 && sb.Length > SummaryLength)
+					if (SummaryLength > 0 && sb.Length > SummaryLength)
 						break;
 				}
 
@@ -201,19 +211,36 @@ namespace MarkdownDeep
 			// Done
 			return sb.ToString();
 		}
-
-		public int SummaryLength
+            
+        /// <summary>
+        /// Gets or sets the length of the summary. If zero the whole document is converted.
+        /// </summary>
+        /// <value>The length of the summary.</value>
+        public int SummaryLength
 		{
 			get;
 			set;
 		}
-
-		// Set to true to only allow whitelisted safe html tags
+            
+        /// <summary>
+        /// Gets or sets a value indicating whether only whitelisted safe html tags are output.
+        /// </summary>
+        /// <value><c>true</c> if safe mode; otherwise, <c>false</c>.</value>
 		public bool SafeMode
 		{
 			get;
 			set;
 		}
+
+        /// <summary>
+        /// Gets or sets a value indicating if unsafe HTML is encoded and rendered, or skipped completely.
+        /// </summary>
+        public bool EncodeUnsafeHtml
+        {
+            get;
+            set;
+
+        }
 
 		// Set to true to enable ExtraMode, which enables the same set of 
 		// features as implemented by PHP Markdown Extra.
@@ -325,6 +352,15 @@ namespace MarkdownDeep
             set;
         }
 
+        public ILinkInfo[] FoundLinks
+        {
+            get { return m_FoundLinks.ToArray(); }
+        }
+
+        public Block[] Blocks
+        {
+            get { return m_Blocks; }
+        }
 
 
 		public Func<string, string> QualifyUrl;
@@ -336,7 +372,7 @@ namespace MarkdownDeep
 			{
 				var q = QualifyUrl(url);
 				if (q != null)
-					return url;
+					return q;
 			}
 
 			// Quit if we don't have a base location
@@ -755,7 +791,13 @@ namespace MarkdownDeep
 		{
 			// Store it
 			m_LinkDefinitions[link.id]=link;
+            m_FoundLinks.Add(new LinkInfo(link, null));
 		}
+
+        internal void AddLinkInfo(LinkInfo link)
+        {
+            m_FoundLinks.Add(link);
+        }
 
 		internal void AddFootnote(Block footnote)
 		{
@@ -783,10 +825,22 @@ namespace MarkdownDeep
 		public LinkDefinition GetLinkDefinition(string id)
 		{
 			LinkDefinition link;
-			if (m_LinkDefinitions.TryGetValue(id, out link))
-				return link;
-			else
-				return null;
+            if (m_LinkDefinitions.TryGetValue(id, out link))
+            {
+                return link;
+            }
+            else
+            {
+                // Link ID wasn't found - a missing link!
+                var alreadyExists = from l in m_FoundLinks
+                        where l.Definition == null && l.Text == id
+                                    select l;
+                if (alreadyExists.FirstOrDefault() == null)
+                {
+                    m_FoundLinks.Add(new LinkInfo(null, id));
+                }
+                return null;
+            }
 		}
 
 		internal void AddAbbreviation(string abbr, string title)
@@ -812,12 +866,15 @@ namespace MarkdownDeep
 			return m_AbbreviationList;
 		}
 
-		// HtmlEncode a range in a string to a specified string builder
-		internal void HtmlEncode(StringBuilder dest, string str, int start, int len)
+        // HtmlEncode a range in a string to a specified string builder
+        internal void HtmlEncode(StringBuilder dest, string str, int start, int len, bool allowBreakLines = false, bool allowHtmlTags = false)
 		{
-			m_StringScanner.Reset(str, start, len);
+            m_StringScanner.Reset(str, start, len);
 			var p = m_StringScanner;
-			while (!p.eof)
+
+            bool insideBreakTag = false;
+
+		    while (!p.eof)
 			{
 				char ch = p.current;
 				switch (ch)
@@ -827,16 +884,49 @@ namespace MarkdownDeep
 						break;
 
 					case '<':
-						dest.Append("&lt;");
-						break;
+				        if (allowHtmlTags)
+				        {
+				            dest.Append(ch);
+				        }
+				        else if (allowBreakLines && !insideBreakTag)
+				        {
+                            // See if this is the start of a line break
+				            if (p.DoesMatchI("<br>") || p.DoesMatchI("<br />") || p.DoesMatchI("<br/>"))
+				            {
+				                insideBreakTag = true;
+				                dest.Append(ch);
+				            }
+				            else
+				            {
+				                dest.Append("&lt;");
+				            }
+				        }
+				        else
+				        {
+				            dest.Append("&lt;");
+				        }
+
+				        break;
 
 					case '>':
-						dest.Append("&gt;");
-						break;
+				        if (allowHtmlTags || (allowBreakLines &&  insideBreakTag))
+				        {
+				            dest.Append(ch);
+				            insideBreakTag = false;
+				        }
+				        else
+				        {
+				            dest.Append("&gt;");
+				        }
+				        break;
 
 					case '\"':
 						dest.Append("&quot;");
 						break;
+
+                    case '\u0085':  // Placeholder whitespace character
+				        dest.Append("<br />");
+				        break;
 
 					default:
 						dest.Append(ch);
@@ -994,6 +1084,8 @@ namespace MarkdownDeep
 		Dictionary<string, Abbreviation> m_AbbreviationMap;
 		List<Abbreviation> m_AbbreviationList;
 
+        public List<ILinkInfo> m_FoundLinks;
+        private Block[] m_Blocks;
 	
 	}
 

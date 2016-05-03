@@ -23,7 +23,7 @@ namespace MarkdownDeep
 	{
 		public LinkDefinition(string id)
 		{
-			this.id= id;
+			this.id = id;
 		}
 
 		public LinkDefinition(string id, string url)
@@ -340,5 +340,15 @@ namespace MarkdownDeep
 			// Done!
 			return r;
 		}
+
+        /// <summary>
+        /// Validate that a URL is a fully qualified URL or not.
+        /// </summary>
+        /// <returns><c>true</c> if is URL fully qualified; otherwise, <c>false</c>.</returns>
+        /// <param name="url">URL to validate.</param>
+        public static bool IsUrlFullyQualified(string url)
+        {
+            return Utils.IsUrlFullyQualified(url);
+        }
 	}
 }

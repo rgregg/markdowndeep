@@ -19,6 +19,14 @@ using System.Text;
 
 namespace MarkdownDeep
 {
+
+    public interface IMarkdownTable
+    {
+        string[] ColumnHeaders { get; }
+        string[][] RowValues { get; }
+    }
+
+
 	internal enum ColumnAlignment
 	{
 		NA,
@@ -26,7 +34,8 @@ namespace MarkdownDeep
 		Right,
 		Center,
 	}
-	internal class TableSpec
+
+    internal class TableSpec : IMarkdownTable
 	{
 		public TableSpec()
 		{
@@ -108,7 +117,7 @@ namespace MarkdownDeep
 				}
 
 				b.Append(">");
-				m.SpanFormatter.Format(b, row[i]);
+				m.SpanFormatter.Format(b, row[i], allowLineBreaks: true);
 				b.Append("</");
 				b.Append(type);
 				b.Append(">\n");
@@ -215,5 +224,39 @@ namespace MarkdownDeep
 				// Next column
 			}
 		}
+
+        #region RGregg extensions
+
+        public string[] ColumnHeaders
+        {
+            get
+            {
+                if (null != Headers)
+                    return Headers.ToArray();
+                else
+                    return new string[0];
+            }
+        }
+
+        public string[][] RowValues
+        { 
+            get
+            {
+                if (null != Rows)
+                {
+                    var rowArrays = from row in Rows
+                                    select row.ToArray();
+                    return rowArrays.ToArray();
+                }
+                else
+                {
+                    return new string[][] { new string[] { } };
+                }
+            }
+        }
+
+
+
+        #endregion
 	}
 }

@@ -71,19 +71,19 @@ namespace MarkdownDeep
 			}
 		}
 
-		internal void Format(StringBuilder dest, string str)
+		internal void Format(StringBuilder dest, string str, bool allowLineBreaks = false)
 		{
-			Format(dest, str, 0, str.Length);
+			Format(dest, str, 0, str.Length, allowLineBreaks);
 		}
 
 		// Format a range in an input string and write it to the destination string builder.
-		internal void Format(StringBuilder dest, string str, int start, int len)
+		internal void Format(StringBuilder dest, string str, int start, int len, bool allowLineBreaks = false)
 		{
 			// Parse the string into a list of tokens
 			Tokenize(str, start, len);
 
 			// Render all tokens
-			Render(dest, str);
+			Render(dest, str, allowLineBreaks: allowLineBreaks);
 		}
 
 		internal void FormatPlain(StringBuilder dest, string str, int start, int len)
@@ -109,7 +109,7 @@ namespace MarkdownDeep
 			return MakeID(str, 0, str.Length);
 		}
 
-		internal string MakeID(string str, int start, int len)
+		internal string MakeID(string str, int start, int len, bool useGithubFormat = true)
 		{
 			// Parse the string into a list of tokens
 			Tokenize(str, start, len);
@@ -136,20 +136,23 @@ namespace MarkdownDeep
 			// Now clean it using the same rules as pandoc
 			base.Reset(sb.ToString());
 
-			// Skip everything up to the first letter
-			while (!eof)
-			{
-				if (Char.IsLetter(current))
-					break;
-				SkipForward(1);
-			}
+            if (!useGithubFormat)
+            {
+                // Skip everything up to the first letter
+                while (!eof)
+                {
+                    if (Char.IsLetter(current))
+                        break;
+                    SkipForward(1);
+                }
+            }
 
 			// Process all characters
 			sb.Length = 0;
 			while (!eof)
 			{
 				char ch = current;
-				if (char.IsLetterOrDigit(ch) || ch=='_' || ch=='-' || ch=='.')
+				if (char.IsLetterOrDigit(ch) || ch=='_' || ch=='-' /*|| ch=='.'*/)
 					sb.Append(Char.ToLower(ch));
 				else if (ch == ' ')
 					sb.Append("-");
@@ -167,7 +170,7 @@ namespace MarkdownDeep
 		}
 
 		// Render a list of tokens to a destinatino string builder.
-		private void Render(StringBuilder sb, string str)
+		private void Render(StringBuilder sb, string str, bool allowLineBreaks = false)
 		{
 			foreach (Token t in m_Tokens)
 			{
@@ -175,7 +178,7 @@ namespace MarkdownDeep
 				{
 					case TokenType.Text:
 						// Append encoded text
-						m_Markdown.HtmlEncode(sb, str, t.startOffset, t.length);
+						m_Markdown.HtmlEncode(sb, str, t.startOffset, t.length, allowLineBreaks);
 						break;
 
 					case TokenType.HtmlTag:
@@ -920,6 +923,7 @@ namespace MarkdownDeep
 
 					if (li!=null)
 					{
+                        m_Markdown.AddLinkInfo(li);
 						SkipForward(1);
 						return CreateToken(TokenType.link, li);
 					}
@@ -1020,7 +1024,9 @@ namespace MarkdownDeep
 					return null;
 
 				// Create the token
-				return CreateToken(token_type, new LinkInfo(link_def, link_text));
+                var li = new LinkInfo(link_def, link_text);
+                m_Markdown.AddLinkInfo(li);
+				return CreateToken(token_type, li);
 			}
 
 			// Optional space or tab
@@ -1081,7 +1087,9 @@ namespace MarkdownDeep
 				return null;
 
 			// Create a token
-			return CreateToken(token_type, new LinkInfo(def, link_text));
+            var newLink = new LinkInfo(def, link_text);
+            m_Markdown.AddLinkInfo(newLink);
+            return CreateToken(token_type, newLink);
 		}
 
 		// Process a ``` code span ```
