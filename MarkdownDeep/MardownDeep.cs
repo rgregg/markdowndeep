@@ -438,6 +438,10 @@ namespace MarkdownDeep
 
 			width = 0;
 			height = 0;
+			
+#if DOTNET_CORE
+			return false;
+#else
 
 			if (Utils.IsUrlFullyQualified(url))
 				return false;
@@ -482,6 +486,7 @@ namespace MarkdownDeep
 			{
 				return false;
 			}
+#endif
 		}
 
 
