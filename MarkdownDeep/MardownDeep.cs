@@ -440,8 +440,9 @@ namespace MarkdownDeep
 			height = 0;
 			
 #if DOTNET_CORE
+            // Don't attempt to do anything to get the size of an image for DOTNET_CORE.
 			return false;
-#else
+#endif
 
 			if (Utils.IsUrlFullyQualified(url))
 				return false;
@@ -486,7 +487,6 @@ namespace MarkdownDeep
 			{
 				return false;
 			}
-#endif
 		}
 
 
