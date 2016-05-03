@@ -1,0 +1,7 @@
+# indented code without list
+
+  ```xml
+  <html><body>something else</body></html>
+  ```
+
+This sample has indented code that shouldn't be part of anything.

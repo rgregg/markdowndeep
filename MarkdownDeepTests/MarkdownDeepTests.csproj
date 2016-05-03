@@ -1,16 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CD1F5BFF-0118-4994-86A2-92658A36CE1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MarkdownDeepTests</RootNamespace>
     <AssemblyName>MarkdownDeepTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -51,17 +49,11 @@
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -86,6 +78,7 @@
     <Compile Include="StringScannerTests.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="XssAttackTests.cs" />
+    <Compile Include="GitHubMarkdown.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MarkdownDeep\MarkdownDeep.csproj">
@@ -95,6 +88,22 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="testfiles\blocktests\SimpleParagraph.txt" />
+    <EmbeddedResource Include="testfiles\phpmarkdown\Links inline style.text" />
+    <EmbeddedResource Include="testfiles\phpmarkdown\Links inline style.html" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\codeinlistbreak.html" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\codeinlistbreak.text" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\codeinlistnobreak.html" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\codeinlistnobreak.text" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\codeinlistnotindented.html" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\codeinlistnotindented.text" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\indentedwithoutlist.html" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\indentedwithoutlist.text" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\mixedlistwithcode.html" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\mixedlistwithcode.text" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\twolistswithcodebetween.html" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\twolistswithcodebetween.text" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\twolistswithtextbetween.html" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\twolistswithtextbetween.text" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="testfiles\blocktests\SimpleParagraph.html" />
@@ -274,7 +283,6 @@
     <EmbeddedResource Include="testfiles\phpmarkdown\Inline HTML %28Span%29.html" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Inline HTML comments.html" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Ins &amp; del.html" />
-    <EmbeddedResource Include="testfiles\phpmarkdown\Links, inline style.html" />
     <EmbeddedResource Include="testfiles\phpmarkdown\MD5 Hashes.html" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Nesting.html" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Parens in URL.html" />
@@ -328,7 +336,6 @@
     <EmbeddedResource Include="testfiles\phpmarkdown\Inline HTML %28Span%29.text" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Inline HTML comments.text" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Ins &amp; del.text" />
-    <EmbeddedResource Include="testfiles\phpmarkdown\Links, inline style.text" />
     <EmbeddedResource Include="testfiles\phpmarkdown\MD5 Hashes.text" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Nesting.text" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Parens in URL.text" />
@@ -467,4 +474,7 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="testfiles\githubmarkdown\" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,9 @@
+## Another example, where code is not indented
+
+1. item 1
+
+  ```
+code for item 1
+  ```
+
+2. item 2

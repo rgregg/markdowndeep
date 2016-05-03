@@ -1,0 +1,9 @@
+﻿# Complex indented example
+
+1. item 1
+2. item 2
+  ```
+  item 2 code
+  ```
+
+3. item 3
