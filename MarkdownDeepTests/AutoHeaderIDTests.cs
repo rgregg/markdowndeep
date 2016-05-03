@@ -47,7 +47,7 @@ namespace MarkdownDeepTests
 		[Test]
 		public void WithLeadingNumbers()
 		{
-			Assert.AreEqual(@"applications",
+			Assert.AreEqual(@"3-applications",
 					m.MakeUniqueHeaderID(@"3. Applications"));
 		}
 
