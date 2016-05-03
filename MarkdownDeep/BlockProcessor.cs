@@ -1017,8 +1017,6 @@ namespace MarkdownDeep
 									break;
 								}
 							}
-
-
 							return true;
 						}
 					}

@@ -16,7 +16,6 @@ namespace MarkdownDeepTests
             return Utils.GetTests("githubmarkdown");
         }
 
-
         [Test, TestCaseSource("GetTests")]
         public void Test(string resourceName)
         {
