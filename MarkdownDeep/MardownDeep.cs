@@ -44,6 +44,7 @@ namespace MarkdownDeep
 			m_UsedFootnotes = new List<Block>();
 			m_UsedHeaderIDs = new Dictionary<string, bool>();
             m_FoundLinks = new List<ILinkInfo>();
+            EncodeUnsafeHtml = true;
 		}
 
 		internal List<Block> ProcessBlocks(string str)
