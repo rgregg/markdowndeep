@@ -3,26 +3,26 @@
     "compilationOptions": {
         "emitEntryPoint": false
     },
-    
+
     "configurations": {
         "Debug": {
             "compilationOptions": {
-                "define": ["DEBUG", "TRACE", "DOTNET_CORE"]
+                "define": ["DEBUG", "TRACE"]
             }
         },
         "Release": {
             "compilationOptions": {
-                "define": ["RELEASE", "TRACE", "DOTNET_CORE"],
+                "define": ["RELEASE", "TRACE"],
                 "optimize": true
             }
         }
     },
 
     "dependencies": {
-        "Microsoft.NETCore.App": "1.0.0-rc2-*"
     },
 
-    "frameworks": {
-        "dnxcore50": { }
-    }
+  "frameworks": {
+    "net45": {}
+  },
+  "runtimes": { "win":  {} }
 }
