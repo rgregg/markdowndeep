@@ -1093,6 +1093,13 @@ namespace MarkdownDeep
         public List<ILinkInfo> m_FoundLinks;
         private Block[] m_Blocks;
 	
+        public string[] HeaderIdsInDocument
+        {
+            get
+            {
+                return m_UsedHeaderIDs.Keys.ToArray();
+            }
+        }
 	}
 
 }
