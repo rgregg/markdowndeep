@@ -128,6 +128,14 @@ namespace MarkdownDeep
 						LinkInfo li = (LinkInfo)t.data;
 						sb.Append(li.link_text);
 						break;
+
+                    case TokenType.code_span:
+                        sb.Append(str, t.startOffset, t.length);
+                        break;
+
+                    default:
+                        //Console.WriteLine(t.data);
+                        break;
 				}
 
 				FreeToken(t);
