@@ -566,6 +566,12 @@ namespace MarkdownDeep
 		 * Any unresolved emphasis marks are rendered unaltered as * or _
 		 */
 
+        private static string WordBreakingCharacters = "{}";
+        private static bool IsWordBreakingCharacter(char c)
+        {
+            return WordBreakingCharacters.Contains(c);
+        }
+
 		// Create emphasis mark for sequences of '*' and '_' (part 1)
 		public Token CreateEmphasisMark()
 		{
@@ -591,7 +597,7 @@ namespace MarkdownDeep
 			// Scan backwards and see if we have space before
 			while (IsEmphasisChar(CharAtOffset(-1)))
 				SkipForward(-1);
-			bool bSpaceBefore = bof || char.IsWhiteSpace(CharAtOffset(-1));
+			bool bSpaceBefore = bof || char.IsWhiteSpace(CharAtOffset(-1)) || IsWordBreakingCharacter(CharAtOffset(-1));
 			position = savepos;
 
 			// Count how many matching emphasis characters
@@ -604,8 +610,9 @@ namespace MarkdownDeep
 			// Scan forwards and see if we have space after
 			while (IsEmphasisChar(CharAtOffset(1)))
 				SkipForward(1);
-			bool bSpaceAfter = eof || char.IsWhiteSpace(current);
-			position = savepos + count;
+            bool bSpaceAfter = eof || char.IsWhiteSpace(current) || IsWordBreakingCharacter(current);
+
+            position = savepos + count;
 
 			// This should have been stopped by check above
 			System.Diagnostics.Debug.Assert(!bSpaceBefore || !bSpaceAfter);
@@ -620,6 +627,7 @@ namespace MarkdownDeep
 				return CreateToken(TokenType.closing_mark, savepos, position - savepos);
 			}
 
+            // Added support for no emphesis in extra mode with internal underscores
 			if (m_Markdown.ExtraMode && ch == '_' && (Char.IsLetterOrDigit(current)))
 				return null;
 
