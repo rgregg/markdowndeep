@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MarkdownDeep")]
+[assembly: AssemblyTitle("MarkdownDeep - RGregg Fork")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Topten Software")]
 [assembly: AssemblyProduct("MarkdownDeep")]
-[assembly: AssemblyCopyright("Copyright © 2010-2011 Topten Software")]
+[assembly: AssemblyCopyright("Copyright © 2010-2011 Topten Software, 2017 Ryan Gregg")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
