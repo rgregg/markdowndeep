@@ -45,7 +45,10 @@ namespace MarkdownDeep
 			m_UsedHeaderIDs = new Dictionary<string, bool>();
             m_FoundLinks = new List<ILinkInfo>();
             EncodeUnsafeHtml = true;
+            ActiveRenderer = new Formats.RenderToHtml();
 		}
+
+        public Formats.FormatRenderer ActiveRenderer { get; set; }
 
 		internal List<Block> ProcessBlocks(string str)
 		{
@@ -100,16 +103,17 @@ namespace MarkdownDeep
 
 			if (SummaryLength != 0)
 			{
+                ActiveRenderer = new Formats.RenderToPlainText();
+
 				// Render all blocks
 				for (int i = 0; i < blocks.Count; i++)
 				{
 					var b = blocks[i];
-					b.RenderPlain(this, sb);
+                    ActiveRenderer.Render(b, this, sb);
 
 					if (SummaryLength > 0 && sb.Length > SummaryLength)
 						break;
 				}
-
 			}
 			else
 			{
@@ -143,16 +147,16 @@ namespace MarkdownDeep
 						// Section header
 						OnSectionHeader(sb, iSection);
 
-						// Section Heading
-						b.Render(this, sb);
+                        // Section Heading
+                        ActiveRenderer.Render(b, this, sb);
 
 						// Section Heading suffix
 						OnSectionHeadingSuffix(sb, iSection);
 					}
 					else
 					{
-						// Regular section
-						b.Render(this, sb);
+                        // Regular section
+                        ActiveRenderer.Render(b, this, sb);
 					}
 				}
 
@@ -198,7 +202,7 @@ namespace MarkdownDeep
 						}
 
 
-						fn.Render(this, sb);
+                        ActiveRenderer.Render(fn, this, sb);
 
 						sb.Append("</li>\n");
 					}

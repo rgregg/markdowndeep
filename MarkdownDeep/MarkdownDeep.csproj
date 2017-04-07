@@ -68,6 +68,9 @@
     <Compile Include="Abbreviation.cs" />
     <Compile Include="BlockProcessor.cs" />
     <Compile Include="FootnoteReference.cs" />
+    <Compile Include="Formats\IRenderFormat.cs" />
+    <Compile Include="Formats\RenderToHtml.cs" />
+    <Compile Include="Formats\RenderToPlainText.cs" />
     <Compile Include="HtmlTag.cs" />
     <Compile Include="LinkDefinition.cs" />
     <Compile Include="LinkInfo.cs" />

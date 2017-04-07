@@ -101,21 +101,7 @@ namespace MarkdownDeep
 			}
 		}
 
-		internal void RenderChildren(Markdown m, StringBuilder b)
-		{
-			foreach (var block in children)
-			{
-				block.Render(m, b);
-			}
-		}
 
-		internal void RenderChildrenPlain(Markdown m, StringBuilder b)
-		{
-			foreach (var block in children)
-			{
-				block.RenderPlain(m, b);
-			}
-		}
 
 		internal string ResolveHeaderID(Markdown m)
 		{
@@ -140,293 +126,293 @@ namespace MarkdownDeep
 			return id;
 		}
 
-		internal void Render(Markdown m, StringBuilder b)
-		{
-			switch (blockType)
-			{
-				case BlockType.Blank:
-					return;
+		//internal void Render(Markdown m, StringBuilder b)
+		//{
+			//switch (blockType)
+			//{
+			//	case BlockType.Blank:
+			//		return;
 
-				case BlockType.p:
-					m.SpanFormatter.FormatParagraph(b, buf, contentStart, contentLen);
-					break;
+			//	case BlockType.p:
+			//		m.SpanFormatter.FormatParagraph(b, buf, contentStart, contentLen);
+			//		break;
 
-				case BlockType.span:
-					m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("\n");
-					break;
+			//	case BlockType.span:
+			//		m.SpanFormatter.Format(b, buf, contentStart, contentLen);
+			//		b.Append("\n");
+			//		break;
 
-				case BlockType.h1:
-				case BlockType.h2:
-				case BlockType.h3:
-				case BlockType.h4:
-				case BlockType.h5:
-				case BlockType.h6:
-					if (m.ExtraMode)
-					{
-						b.Append("<" + blockType.ToString());
-						string id = ResolveHeaderID(m);
-						if (!String.IsNullOrEmpty(id))
-						{
-							b.Append(" id=\"");
-							b.Append(id);
-							b.Append("\">");
-						}
-						else
-						{
-							b.Append(">");
-						}
-					}
-					else
-					{
-						b.Append("<" + blockType.ToString() + ">");
-					}
-					m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("</" + blockType.ToString() + ">\n");
-					break;
+			//	case BlockType.h1:
+			//	case BlockType.h2:
+			//	case BlockType.h3:
+			//	case BlockType.h4:
+			//	case BlockType.h5:
+			//	case BlockType.h6:
+			//		if (m.ExtraMode)
+			//		{
+			//			b.Append("<" + blockType.ToString());
+			//			string id = ResolveHeaderID(m);
+			//			if (!String.IsNullOrEmpty(id))
+			//			{
+			//				b.Append(" id=\"");
+			//				b.Append(id);
+			//				b.Append("\">");
+			//			}
+			//			else
+			//			{
+			//				b.Append(">");
+			//			}
+			//		}
+			//		else
+			//		{
+			//			b.Append("<" + blockType.ToString() + ">");
+			//		}
+			//		m.SpanFormatter.Format(b, buf, contentStart, contentLen);
+			//		b.Append("</" + blockType.ToString() + ">\n");
+			//		break;
 
-				case BlockType.hr:
-					b.Append("<hr />\n");
-					return;
+			//	case BlockType.hr:
+			//		b.Append("<hr />\n");
+			//		return;
 
-				case BlockType.user_break:
-					return;
+			//	case BlockType.user_break:
+			//		return;
 
-				case BlockType.ol_li:
-				case BlockType.ul_li:
-					b.Append("<li>");
-					m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("</li>\n");
-					break;
+			//	case BlockType.ol_li:
+			//	case BlockType.ul_li:
+			//		b.Append("<li>");
+			//		m.SpanFormatter.Format(b, buf, contentStart, contentLen);
+			//		b.Append("</li>\n");
+			//		break;
 
-				case BlockType.dd:
-					b.Append("<dd>");
-					if (children != null)
-					{
-						b.Append("\n");
-						RenderChildren(m, b);
-					}
-					else
-						m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("</dd>\n");
-					break;
+			//	case BlockType.dd:
+			//		b.Append("<dd>");
+			//		if (children != null)
+			//		{
+			//			b.Append("\n");
+			//			RenderChildren(m, b);
+			//		}
+			//		else
+			//			m.SpanFormatter.Format(b, buf, contentStart, contentLen);
+			//		b.Append("</dd>\n");
+			//		break;
 
-				case BlockType.dt:
-				{
-					if (children == null)
-					{
-						foreach (var l in Content.Split('\n'))
-						{
-							b.Append("<dt>");
-							m.SpanFormatter.Format(b, l.Trim());
-							b.Append("</dt>\n");
-						}
-					}
-					else
-					{
-						b.Append("<dt>\n");
-						RenderChildren(m, b);
-						b.Append("</dt>\n");
-					}
-					break;
-				}
+			//	case BlockType.dt:
+			//	{
+			//		if (children == null)
+			//		{
+			//			foreach (var l in Content.Split('\n'))
+			//			{
+			//				b.Append("<dt>");
+			//				m.SpanFormatter.Format(b, l.Trim());
+			//				b.Append("</dt>\n");
+			//			}
+			//		}
+			//		else
+			//		{
+			//			b.Append("<dt>\n");
+			//			RenderChildren(m, b);
+			//			b.Append("</dt>\n");
+			//		}
+			//		break;
+			//	}
 
-				case BlockType.dl:
-					b.Append("<dl>\n");
-					RenderChildren(m, b);
-					b.Append("</dl>\n");
-					return;
+			//	case BlockType.dl:
+			//		b.Append("<dl>\n");
+			//		RenderChildren(m, b);
+			//		b.Append("</dl>\n");
+			//		return;
 
-				case BlockType.html:
-					b.Append(buf, contentStart, contentLen);
-					return;
+			//	case BlockType.html:
+			//		b.Append(buf, contentStart, contentLen);
+			//		return;
 
-				case BlockType.unsafe_html:
-                    if (m.EncodeUnsafeHtml)
-                    {
-                        m.HtmlEncode(b, buf, contentStart, contentLen);
-                    }
-					return;
+			//	case BlockType.unsafe_html:
+   //                 if (m.EncodeUnsafeHtml)
+   //                 {
+   //                     m.HtmlEncode(b, buf, contentStart, contentLen);
+   //                 }
+			//		return;
 
-				case BlockType.codeblock:
-					if (m.FormatCodeBlock != null)
-					{
-						var sb = new StringBuilder();
-						foreach (var line in children)
-						{
-							m.HtmlEncodeAndConvertTabsToSpaces(sb, line.buf, line.contentStart, line.contentLen);
-							sb.Append("\n");
-						}
-						b.Append(m.FormatCodeBlock(m, sb.ToString()));
-					}
-					else
-					{
-					    if (!string.IsNullOrEmpty((this.CodeLanguage)))
-					        b.AppendFormat("<pre><code class=\"{0}\">", this.CodeLanguage);
-                        else
-						    b.Append("<pre><code>");
+			//	case BlockType.codeblock:
+			//		if (m.FormatCodeBlock != null)
+			//		{
+			//			var sb = new StringBuilder();
+			//			foreach (var line in children)
+			//			{
+			//				m.HtmlEncodeAndConvertTabsToSpaces(sb, line.buf, line.contentStart, line.contentLen);
+			//				sb.Append("\n");
+			//			}
+			//			b.Append(m.FormatCodeBlock(m, sb.ToString()));
+			//		}
+			//		else
+			//		{
+			//		    if (!string.IsNullOrEmpty((this.CodeLanguage)))
+			//		        b.AppendFormat("<pre><code class=\"{0}\">", this.CodeLanguage);
+   //                     else
+			//			    b.Append("<pre><code>");
 
-						foreach (var line in children)
-						{
-							m.HtmlEncodeAndConvertTabsToSpaces(b, line.buf, line.contentStart, line.contentLen);
-							b.Append("\n");
-						}
-						b.Append("</code></pre>\n\n");
-					}
-					return;
+			//			foreach (var line in children)
+			//			{
+			//				m.HtmlEncodeAndConvertTabsToSpaces(b, line.buf, line.contentStart, line.contentLen);
+			//				b.Append("\n");
+			//			}
+			//			b.Append("</code></pre>\n\n");
+			//		}
+			//		return;
 
-				case BlockType.quote:
-					b.Append("<blockquote>\n");
-					RenderChildren(m, b);
-					b.Append("</blockquote>\n");
-					return;
+			//	case BlockType.quote:
+			//		b.Append("<blockquote>\n");
+			//		RenderChildren(m, b);
+			//		b.Append("</blockquote>\n");
+			//		return;
 
-				case BlockType.li:
-					b.Append("<li>\n");
-					RenderChildren(m, b);
-					b.Append("</li>\n");
-					return;
+			//	case BlockType.li:
+			//		b.Append("<li>\n");
+			//		RenderChildren(m, b);
+			//		b.Append("</li>\n");
+			//		return;
 
-				case BlockType.ol:
-					b.Append("<ol>\n");
-					RenderChildren(m, b);
-					b.Append("</ol>\n");
-					return;
+			//	case BlockType.ol:
+			//		b.Append("<ol>\n");
+			//		RenderChildren(m, b);
+			//		b.Append("</ol>\n");
+			//		return;
 
-				case BlockType.ul:
-					b.Append("<ul>\n");
-					RenderChildren(m, b);
-					b.Append("</ul>\n");
-					return;
+			//	case BlockType.ul:
+			//		b.Append("<ul>\n");
+			//		RenderChildren(m, b);
+			//		b.Append("</ul>\n");
+			//		return;
 
-				case BlockType.HtmlTag:
-					var tag = (HtmlTag)data;
+			//	case BlockType.HtmlTag:
+			//		var tag = (HtmlTag)data;
 
-					// Prepare special tags
-					var name=tag.name.ToLowerInvariant();
-					if (name == "a")
-					{
-						m.OnPrepareLink(tag);
-					}
-					else if (name == "img")
-					{
-						m.OnPrepareImage(tag, m.RenderingTitledImage);
-					}
+			//		// Prepare special tags
+			//		var name=tag.name.ToLowerInvariant();
+			//		if (name == "a")
+			//		{
+			//			m.OnPrepareLink(tag);
+			//		}
+			//		else if (name == "img")
+			//		{
+			//			m.OnPrepareImage(tag, m.RenderingTitledImage);
+			//		}
 
-					tag.RenderOpening(b);
-					b.Append("\n");
-					RenderChildren(m, b);
-					tag.RenderClosing(b);
-					b.Append("\n");
-					return;
+			//		tag.RenderOpening(b);
+			//		b.Append("\n");
+			//		RenderChildren(m, b);
+			//		tag.RenderClosing(b);
+			//		b.Append("\n");
+			//		return;
 
-				case BlockType.Composite:
-				case BlockType.footnote:
-					RenderChildren(m, b);
-					return;
+			//	case BlockType.Composite:
+			//	case BlockType.footnote:
+			//		RenderChildren(m, b);
+			//		return;
 
-				case BlockType.table_spec:
-					((TableSpec)data).Render(m, b);
-					break;
+			//	case BlockType.table_spec:
+			//		((TableSpec)data).Render(m, b);
+			//		break;
 
-				case BlockType.p_footnote:
-					b.Append("<p>");
-					if (contentLen > 0)
-					{
-						m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-						b.Append("&nbsp;");
-					}
-					b.Append((string)data);
-					b.Append("</p>\n");
-					break;
+			//	case BlockType.p_footnote:
+			//		b.Append("<p>");
+			//		if (contentLen > 0)
+			//		{
+			//			m.SpanFormatter.Format(b, buf, contentStart, contentLen);
+			//			b.Append("&nbsp;");
+			//		}
+			//		b.Append((string)data);
+			//		b.Append("</p>\n");
+			//		break;
 
-				default:
-					b.Append("<" + blockType.ToString() + ">");
-					m.SpanFormatter.Format(b, buf, contentStart, contentLen);
-					b.Append("</" + blockType.ToString() + ">\n");
-					break;
-			}
-		}
+			//	default:
+			//		b.Append("<" + blockType.ToString() + ">");
+			//		m.SpanFormatter.Format(b, buf, contentStart, contentLen);
+			//		b.Append("</" + blockType.ToString() + ">\n");
+			//		break;
+			//}
+		//}
 
-		internal void RenderPlain(Markdown m, StringBuilder b)
-		{
-			switch (blockType)
-			{
-				case BlockType.Blank:
-					return;
+		//internal void RenderPlain(Markdown m, StringBuilder b)
+		//{
+		//	switch (blockType)
+		//	{
+		//		case BlockType.Blank:
+		//			return;
 
-				case BlockType.p:
-				case BlockType.span:
-					m.SpanFormatter.FormatPlain(b, buf, contentStart, contentLen);
-					b.Append(" ");
-					break;
+		//		case BlockType.p:
+		//		case BlockType.span:
+		//			m.SpanFormatter.FormatPlain(b, buf, contentStart, contentLen);
+		//			b.Append(" ");
+		//			break;
 
-				case BlockType.h1:
-				case BlockType.h2:
-				case BlockType.h3:
-				case BlockType.h4:
-				case BlockType.h5:
-				case BlockType.h6:
-					m.SpanFormatter.FormatPlain(b, buf, contentStart, contentLen);
-					b.Append(" - ");
-					break;
+		//		case BlockType.h1:
+		//		case BlockType.h2:
+		//		case BlockType.h3:
+		//		case BlockType.h4:
+		//		case BlockType.h5:
+		//		case BlockType.h6:
+		//			m.SpanFormatter.FormatPlain(b, buf, contentStart, contentLen);
+		//			b.Append(" - ");
+		//			break;
 
 
-				case BlockType.ol_li:
-				case BlockType.ul_li:
-					b.Append("* ");
-					m.SpanFormatter.FormatPlain(b, buf, contentStart, contentLen);
-					b.Append(" ");
-					break;
+		//		case BlockType.ol_li:
+		//		case BlockType.ul_li:
+		//			b.Append("* ");
+		//			m.SpanFormatter.FormatPlain(b, buf, contentStart, contentLen);
+		//			b.Append(" ");
+		//			break;
 
-				case BlockType.dd:
-					if (children != null)
-					{
-						b.Append("\n");
-						RenderChildrenPlain(m, b);
-					}
-					else
-						m.SpanFormatter.FormatPlain(b, buf, contentStart, contentLen);
-					break;
+		//		case BlockType.dd:
+		//			if (children != null)
+		//			{
+		//				b.Append("\n");
+		//				RenderChildrenPlain(m, b);
+		//			}
+		//			else
+		//				m.SpanFormatter.FormatPlain(b, buf, contentStart, contentLen);
+		//			break;
 
-				case BlockType.dt:
-					{
-						if (children == null)
-						{
-							foreach (var l in Content.Split('\n'))
-							{
-								var str = l.Trim();
-								m.SpanFormatter.FormatPlain(b, str, 0, str.Length);
-							}
-						}
-						else
-						{
-							RenderChildrenPlain(m, b);
-						}
-						break;
-					}
+		//		case BlockType.dt:
+		//			{
+		//				if (children == null)
+		//				{
+		//					foreach (var l in Content.Split('\n'))
+		//					{
+		//						var str = l.Trim();
+		//						m.SpanFormatter.FormatPlain(b, str, 0, str.Length);
+		//					}
+		//				}
+		//				else
+		//				{
+		//					RenderChildrenPlain(m, b);
+		//				}
+		//				break;
+		//			}
 
-				case BlockType.dl:
-					RenderChildrenPlain(m, b);
-					return;
+		//		case BlockType.dl:
+		//			RenderChildrenPlain(m, b);
+		//			return;
 
-				case BlockType.codeblock:
-					foreach (var line in children)
-					{
-						b.Append(line.buf, line.contentStart, line.contentLen);
-						b.Append(" ");
-					}
-					return;
+		//		case BlockType.codeblock:
+		//			foreach (var line in children)
+		//			{
+		//				b.Append(line.buf, line.contentStart, line.contentLen);
+		//				b.Append(" ");
+		//			}
+		//			return;
 
-				case BlockType.quote:
-				case BlockType.li:
-				case BlockType.ol:
-				case BlockType.ul:
-				case BlockType.HtmlTag:
-					RenderChildrenPlain(m, b);
-					return;
-			}
-		}
+		//		case BlockType.quote:
+		//		case BlockType.li:
+		//		case BlockType.ol:
+		//		case BlockType.ul:
+		//		case BlockType.HtmlTag:
+		//			RenderChildrenPlain(m, b);
+		//			return;
+		//	}
+		//}
 
 		public void RevertToPlain()
 		{
