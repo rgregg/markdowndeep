@@ -1248,6 +1248,7 @@ namespace MarkdownDeep
 		{
 			// What sort of list are we dealing with
 			BlockType listType = lines[0].blockType;
+            int olStartIndex = lines[0].OlStart;
 			System.Diagnostics.Debug.Assert(listType == BlockType.ul_li || listType == BlockType.ol_li);
 
 			// Preprocess
@@ -1287,6 +1288,7 @@ namespace MarkdownDeep
 
 			// Create the wrapping list item
 			var List = new Block(listType == BlockType.ul_li ? BlockType.ul : BlockType.ol);
+            List.OlStart = olStartIndex;
 			List.children = new List<Block>();
 
 			// Process all lines in the range		

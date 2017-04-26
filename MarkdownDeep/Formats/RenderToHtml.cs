@@ -156,7 +156,14 @@ namespace MarkdownDeep.Formats
                     return;
 
                 case BlockType.ol:
-                    b.Append("<ol>\n");
+                    if (block.OlStart <= 1)
+                    {
+                        b.Append("<ol>\n");
+                    }
+                    else
+                    {
+                        b.Append("<ol start=\"" + block.OlStart + "\">\n");
+                    }
                     RenderChildren(block, m, b);
                     b.Append("</ol>\n");
                     return;
