@@ -80,8 +80,10 @@ namespace MarkdownDeep
 			// Find the end
 			int startpos = pos;
 			pos++;
-			while (pos < str.Length && (char.IsDigit(str[pos]) || char.IsLetter(str[pos]) || str[pos] == '_'))
-				pos++;
+            while (pos < str.Length && (char.IsDigit(str[pos]) || char.IsLetter(str[pos]) || str[pos] == '_' || str[pos] == ':'))
+            {
+                pos++;
+            }
 
 			// Return it
 			identifer = str.Substring(startpos, pos - startpos);

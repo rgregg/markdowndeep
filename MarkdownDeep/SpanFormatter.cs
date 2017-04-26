@@ -615,7 +615,7 @@ namespace MarkdownDeep
             position = savepos + count;
 
 			// This should have been stopped by check above
-			System.Diagnostics.Debug.Assert(!bSpaceBefore || !bSpaceAfter);
+			//System.Diagnostics.Debug.Assert(!bSpaceBefore || !bSpaceAfter);
 
 			if (bSpaceBefore)
 			{
