@@ -279,6 +279,14 @@ namespace MarkdownDeep
 			set;
 		}
 
+        // When set, ordered lists will will use the starting value from the markdown
+        // element as the starting value for the HTML output. e.g. 2. Item -> <ol start="2"><li>Item</li>...
+        public bool RespectOrderedListStartValues
+        {
+            get;
+            set;
+        }
+
 		// When set, all non-qualified urls (links and images) will
 		// be qualified using this location as the base.
 		// Useful when rendering RSS feeds that require fully qualified urls.

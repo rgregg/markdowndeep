@@ -9,18 +9,19 @@ using System.Reflection;
 namespace MarkdownDeepTests
 {
     [TestFixture]
-    class GitHubMarkdownTests
+    class OrderedListTests
     {
+
+
         public static IEnumerable<TestCaseData> GetTests()
         {
-            return Utils.GetTests("githubmarkdown");
+            return Utils.GetTests("orderedlist");
         }
 
         [Test, TestCaseSource("GetTests")]
-        public void Test_githubmarkdown(string resourceName)
+        public void Test_orderedlists(string resourceName)
         {
             Utils.RunResourceTest(resourceName);
         }
-
     }
 }

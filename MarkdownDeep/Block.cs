@@ -101,9 +101,31 @@ namespace MarkdownDeep
 			}
 		}
 
+        private int olStart = -1;
+        public int OlStart
+        {
+            get
+            {
+                int currentOlStart = 0;
+                if (blockType == BlockType.ol_li && lineStart < contentStart)
+                {
+                    string startNumber = buf.Substring(lineStart, contentStart - lineStart).TrimEnd(new char[] { ' ', '.' });
+                    int.TryParse(startNumber, out currentOlStart);
+                }
+                if (currentOlStart > 0)
+                {
+                    olStart = currentOlStart;
+                }
 
+                return olStart;
+            }
+            set
+            {
+                olStart = value;
+            }
+        }
 
-		internal string ResolveHeaderID(Markdown m)
+        internal string ResolveHeaderID(Markdown m)
 		{
 			// Already resolved?
 			if (this.data!=null && this.data is string)
