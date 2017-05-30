@@ -126,6 +126,7 @@ namespace MarkdownDeepTests
 			md.ExtraMode = resourceName.IndexOf("(ExtraMode)") >= 0;;
 			md.MarkdownInHtml = resourceName.IndexOf("(MarkdownInHtml)") >= 0;
 			md.AutoHeadingIDs = resourceName.IndexOf("(AutoHeadingIDs)") >= 0;
+            md.RespectOrderedListStartValues = resourceName.IndexOf("(OLStart)") >= 0;
 
 			string actual = md.Transform(input);
 			string actual_clean = Utils.strip_redundant_whitespace(actual);
