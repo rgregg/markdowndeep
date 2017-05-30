@@ -76,6 +76,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EmphasisTests.cs" />
     <Compile Include="StringScannerTests.cs" />
+    <Compile Include="TestCases.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestCases.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Compile Include="XssAttackTests.cs" />
     <Compile Include="GitHubMarkdown.cs" />
@@ -87,6 +92,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="TestCases.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestCases.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="testfiles\blocktests\SimpleParagraph.txt" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Links inline style.text" />
     <EmbeddedResource Include="testfiles\phpmarkdown\Links inline style.html" />
@@ -407,6 +416,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <EmbeddedResource Include="testfiles\githubmarkdown\breaklist.text" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="testfiles\extramode\Issue26%28ExtraMode%29.txt" />
@@ -475,6 +485,12 @@
     </PreBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="testfiles\githubmarkdown\" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="testfiles\githubmarkdown\breaklist.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="testfiles\orderedlist\" />
   </ItemGroup>
 </Project>
