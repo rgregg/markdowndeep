@@ -22,25 +22,5 @@ namespace MarkdownDeepTests
             Utils.RunResourceTest(resourceName);
         }
 
-        [Test]
-        public void BreakInOrderedList()
-        {
-            string input = TestCases.breaklist_md;
-            string expected = TestCases.breaklist_html;
-
-            var md = new MarkdownDeep.Markdown();
-
-            string actual = md.Transform(input);
-            string actual_clean = Utils.strip_redundant_whitespace(actual);
-            string expected_clean = Utils.strip_redundant_whitespace(expected);
-
-            string sep = new string('-', 30) + "\n";
-
-            Console.WriteLine("Input:\n" + sep + input);
-            Console.WriteLine("Actual:\n" + sep + actual);
-            Console.WriteLine("Expected:\n" + sep + expected);
-
-            Assert.AreEqual(expected_clean, actual_clean);
-        }
     }
 }

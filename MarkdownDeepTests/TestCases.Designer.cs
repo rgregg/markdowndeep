@@ -66,8 +66,8 @@ namespace MarkdownDeepTests {
         ///&lt;li&gt;item 1&lt;/li&gt;
         ///&lt;/ol&gt;
         ///&lt;h3&gt;Subheader&lt;/h3&gt;
-        ///&lt;ol start=&quot;2&quot;&gt;
-        ///&lt;li&gt;item 2&lt;/li&gt;
+        ///&lt;ol&gt;
+        ///&lt;li&gt;item 1 again&lt;/li&gt;
         ///&lt;/ol&gt;
         ///.
         /// </summary>
@@ -84,12 +84,73 @@ namespace MarkdownDeepTests {
         ///
         ///### Subheader
         ///
-        ///2. item 2
+        ///1. item 1 again
         ///.
         /// </summary>
         internal static string breaklist_md {
             get {
                 return ResourceManager.GetString("breaklist_md", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;Table in list with break&lt;/h2&gt;
+        ///&lt;ol&gt;
+        ///&lt;li&gt;item 1&lt;/li&gt;
+        ///&lt;/ol&gt;
+        ///&lt;h3&gt;Subheader&lt;/h3&gt;
+        ///&lt;ol start=&quot;2&quot;&gt;
+        ///&lt;li&gt;item 2&lt;/li&gt;
+        ///&lt;/ol&gt;
+        ///.
+        /// </summary>
+        internal static string donotbreaklist_html {
+            get {
+                return ResourceManager.GetString("donotbreaklist_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ## Table in list with break
+        ///
+        ///1. item 1
+        ///
+        ///### Subheader
+        ///
+        ///2. item 2
+        ///.
+        /// </summary>
+        internal static string donotbreaklist_md {
+            get {
+                return ResourceManager.GetString("donotbreaklist_md", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;Ordered list starting at 10&lt;/h2&gt;
+        ///&lt;ol start=&quot;10&quot;&gt;
+        ///&lt;li&gt;item 1&lt;/li&gt;
+        ///&lt;li&gt;item 2&lt;/li&gt;
+        ///&lt;li&gt;item 3&lt;/li&gt;
+        ///&lt;/ol&gt;
+        ///.
+        /// </summary>
+        internal static string startwith10_html {
+            get {
+                return ResourceManager.GetString("startwith10_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ## Ordered list starting at 10
+        ///
+        ///10. item 1
+        ///11. item 2
+        ///12. item 3.
+        /// </summary>
+        internal static string startwith10_md {
+            get {
+                return ResourceManager.GetString("startwith10_md", resourceCulture);
             }
         }
     }

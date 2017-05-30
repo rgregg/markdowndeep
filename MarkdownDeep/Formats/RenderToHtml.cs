@@ -156,7 +156,7 @@ namespace MarkdownDeep.Formats
                     return;
 
                 case BlockType.ol:
-                    if (block.OlStart <= 1)
+                    if (!m.RespectOrderedListStartValues || block.OlStart <= 1)
                     {
                         b.Append("<ol>\n");
                     }

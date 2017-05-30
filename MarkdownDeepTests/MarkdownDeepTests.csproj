@@ -62,6 +62,7 @@
     <Compile Include="CodeSpanTests.cs" />
     <Compile Include="AutoLinkTests.cs" />
     <Compile Include="AutoHeaderIDTests.cs" />
+    <Compile Include="OrderedListTests.cs" />
     <Compile Include="TableSpecTests.cs" />
     <Compile Include="ExtraMode.cs" />
     <Compile Include="SafeModeTests.cs" />
@@ -416,7 +417,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <EmbeddedResource Include="testfiles\githubmarkdown\breaklist.text" />
+    <EmbeddedResource Include="testfiles\orderedlist\breaklist.text" />
+    <EmbeddedResource Include="testfiles\orderedlist\donotbreaklist.text" />
+    <EmbeddedResource Include="testfiles\orderedlist\startwith10.text" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="testfiles\extramode\Issue26%28ExtraMode%29.txt" />
@@ -488,9 +491,12 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="testfiles\githubmarkdown\breaklist.html" />
+    <EmbeddedResource Include="testfiles\orderedlist\breaklist.html" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="testfiles\orderedlist\" />
+    <EmbeddedResource Include="testfiles\orderedlist\startwith10.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="testfiles\orderedlist\donotbreaklist.html" />
   </ItemGroup>
 </Project>

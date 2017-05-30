@@ -119,9 +119,21 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="breaklist_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>testfiles\githubmarkdown\breaklist.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>testfiles\orderedlist\breaklist.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="breaklist_md" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>testfiles\githubmarkdown\breaklist.text;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>testfiles\orderedlist\breaklist.text;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="donotbreaklist_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>testfiles\orderedlist\donotbreaklist.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="donotbreaklist_md" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>testfiles\orderedlist\donotbreaklist.text;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="startwith10_html" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>testfiles\orderedlist\startwith10.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="startwith10_md" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>testfiles\orderedlist\startwith10.text;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
