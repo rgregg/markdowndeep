@@ -653,15 +653,18 @@ namespace MarkdownDeep
 				position = line_start;
 			}
 
-			// Fenced code blocks?
-			if (m_markdown.ExtraMode && (ch == '~' || ch=='`'))
-			{
-				if (ProcessFencedCodeBlock(b))
-					return b.blockType;
-
-				// Rewind
-				position = line_start;
-			}
+            // Fenced code blocks?
+            if (m_markdown.ExtraMode)
+            {
+                this.SkipWhitespace();
+                if (current == '~' || current == '`')
+                {
+                    if (ProcessFencedCodeBlock(b))
+                        return b.blockType;
+                }
+                // Rewind
+                position = line_start;
+            }
 
 			// Scan the leading whitespace, remembering how many spaces and where the first tab is
 			int tabPos = -1;
@@ -1519,9 +1522,16 @@ namespace MarkdownDeep
 			if (!Find(strFence))
 				return false;
 
-			// Character before must be a eol char
-			if (!IsLineEnd(CharAtOffset(-1)))
-				return false;
+            // Character before must be a eol char or whitespace to eol
+            // See if there is only whitespace to the left
+            int offset = -1;
+            while (!IsLineEnd(CharAtOffset(offset)) && char.IsWhiteSpace(CharAtOffset(offset)))
+            {
+                offset--;
+            }
+            if (!IsLineEnd(CharAtOffset(offset))) {
+                return false;
+            }
 
 			int endCode = position;
 
@@ -1537,7 +1547,12 @@ namespace MarkdownDeep
 			b.blockType = BlockType.codeblock;
 			b.children = new List<Block>();
 
-			// Remove the trailing line end
+			// Remove the trailing line end (and whitespace)
+            if (offset != -1)
+            {
+                endCode += offset;  // Remove the whitespace
+            }
+
 			if (input[endCode - 1] == '\r' && input[endCode - 2] == '\n')
 				endCode -= 2;
 			else if (input[endCode - 1] == '\n' && input[endCode - 2] == '\r')
