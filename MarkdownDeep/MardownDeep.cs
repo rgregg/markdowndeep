@@ -451,10 +451,10 @@ namespace MarkdownDeep
 			width = 0;
 			height = 0;
 			
-#if DOTNET_CORE
+// #if DOTNET_CORE
             // Don't attempt to do anything to get the size of an image for DOTNET_CORE.
 			return false;
-#endif
+// #endif
 
 			if (Utils.IsUrlFullyQualified(url))
 				return false;
@@ -481,24 +481,24 @@ namespace MarkdownDeep
 			// 
 
 			//Create an image object from the uploaded file
-			try
-			{
-				var img = System.Drawing.Image.FromFile(str);
-				width=img.Width;
-				height=img.Height;
+			// try
+			// {
+			// 	var img = System.Drawing.Image.FromFile(str);
+			// 	width=img.Width;
+			// 	height=img.Height;
 
-				if (MaxImageWidth != 0 && width>MaxImageWidth)
-				{
-					height=(int)((double)height * (double)MaxImageWidth / (double)width);
-					width=MaxImageWidth;
-				}
+			// 	if (MaxImageWidth != 0 && width>MaxImageWidth)
+			// 	{
+			// 		height=(int)((double)height * (double)MaxImageWidth / (double)width);
+			// 		width=MaxImageWidth;
+			// 	}
 
-				return true;
-			}
-			catch (Exception)
-			{
+			// 	return true;
+			// }
+			// catch (Exception)
+			// {
 				return false;
-			}
+			// }
 		}
 
 
